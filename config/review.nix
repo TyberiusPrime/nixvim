@@ -7,8 +7,8 @@
     #enable = true;
   };
   # I think I like this one better
-  plugins.indent-blankline = {
-    enable = true;
+  plugins.indent-blankline = { # use snacks
+    enable = false;
     settings = {
       exclude = {
         buftypes = [

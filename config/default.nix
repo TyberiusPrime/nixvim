@@ -23,6 +23,7 @@
     ./copilot.nix
     ./typst.nix
     ./menu.nix
+    ./files.nix
 
   ];
   config = {

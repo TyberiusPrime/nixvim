@@ -7,6 +7,11 @@
       picker.settings = {
         ui_select = true;
       };
+      bigfile.enable = true;
+      indent= {
+        enable = true;
+        animate.enabled = false;
+        };
     };
   };
 
