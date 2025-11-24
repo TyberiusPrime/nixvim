@@ -147,6 +147,10 @@
       key = "<leader>j";
       action = "<esc>:lua Snacks.picker.git_files()<cr>";
       mode = "n";
+    }{
+      key = "<backspace>";
+      action = "<esc>:lua Snacks.picker.buffers()<cr>";
+      mode = "n";
     }
 
   ];
