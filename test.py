@@ -7,7 +7,7 @@ class Anton:
             pass
         else:
             x = "hello"
-            anton
+            anto
             aneohu
             shi(((shu(aeou + 5, shu), shum)))
             a
