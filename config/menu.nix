@@ -7,6 +7,53 @@
 {
 
   extraConfigLua = ''
+
+hugo_links = function()
+	local cmd = {"find"}
+	local docs_path = require('project').get_project_root() .. "/docs/content"
+	table.insert(cmd, docs_path)
+	table.insert(cmd, "-name")
+	table.insert(cmd, "*.md")
+	table.insert(cmd, "-type")
+	table.insert(cmd, "f")
+
+    local hits = vim.fn.systemlist(vim.tbl_flatten(cmd))
+
+    if #hits == 0 then
+        print("No markdown files found in docs/content")
+        return
+    end
+
+    -- Multiple hits, use selection
+    local commands = {}
+    for _, file in ipairs(hits) do
+        local relative_path = file:gsub("^" .. docs_path , "")
+        local display_name = relative_path:gsub("%.md$", ""):gsub("/", " > ")
+        local link_name = relative_path:match("([^/]+)%.md$") or relative_path:gsub("%.md$", "")
+        local hugo_link = string.format('[%s]({{< relref "%s" >}})', link_name, relative_path)
+
+        commands[display_name] = function()
+            vim.api.nvim_put({ hugo_link }, "", false, true)
+        end
+    end
+
+    local cmd = {}
+    for name, _ in pairs(commands) do
+        table.insert(cmd, name)
+    end  
+
+
+    vim.ui.select(cmd, {
+                prompt = 'Hugo',
+            }, function(choice)
+                if choice then
+                    commands[choice]()
+                  end
+                end
+        )
+    end
+
+
       vim.api.nvim_exec(
     	[[
     function! DiffAgainstFileOnDisk()
@@ -107,6 +154,10 @@
           print('File path not found.')
       end
     end
+
+    commands["hugo links"] = hugo_links
+
+
 
 
     local command_names = {}
