@@ -19,4 +19,6 @@
     pkgs.nixd
     pkgs.nixfmt-rfc-style
   ];
+  diagnostic.settings.virtual_text = true;
+
 }

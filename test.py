@@ -1,7 +1,7 @@
 "hallo grausami welt"
 class Anton:
-    def inner(self):
-        pass 
+    def outer(self) -> int:
+        return 5
     def shu():
         if true:
             pass
@@ -14,14 +14,18 @@ class Anton:
             oua
             ou
             aoeu
-            def inner(x):
+
+            def fibonaci(
+            def inner2(x):
                 diptoi
                 taptoi
             eoau
-            inner()
+            self.outer()
             aoeu
             eoau
             au
 
         print(shi)
 shu(23)
+
+def fibonaci(

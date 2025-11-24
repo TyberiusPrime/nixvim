@@ -1,22 +1,47 @@
 {
   nixpkgs.config.allowUnfree = true;
-  plugins.lsp.servers.copilot.enable= true;
-  plugins.copilot-vim={
-    enable = true;
+  plugins.lsp.servers.copilot.enable = false;
+  plugins.copilot-vim = {
+    enable = false;
     settings = {
       filetypes = {
-        "mail"= false;
+        "mail" = false;
       };
     };
   };
+  plugins.copilot-lua = {
+    enable = true;
+    settings = {
+      filetypes = {
+        "mail" = false;
+      };
 
+      panel = {
+        auto_refresh = false;
+        enabled = false;
+      };
+      suggestion = {
+        auto_trigger = true;
+        debounce = 90;
+        enabled = true;
+        hide_during_completion = false;
+        keymap = {
+          accept = "<c-u>";
+        };
+      };
+
+    };
+  };
   autoCmd = [
     {
-    event = ["BufNewFile" "BufRead"];
-    pattern = ["*.mail"];
-    command = "set filetype=mail";
-  }
+      event = [
+        "BufNewFile"
+        "BufRead"
+      ];
+      pattern = [ "*.mail" ];
+      command = "set filetype=mail";
+    }
   ];
 
-  plugins.copilot-chat.enable = true;
+  plugins.copilot-chat.enable = false;
 }

@@ -24,16 +24,21 @@
     ./typst.nix
     ./menu.nix
     ./myswitch.nix
+    ./project.nix
+    ./autocomplete.nix
     ./files.nix
+    ./yank_highlight.nix
+
 
   ];
   config = {
     # one liner plugins.:
-    plugins.whitespace.enable = true;
-    plugins.vim-suda.enable = true;
+    plugins.bacon.enable = true;
+    plugins.jupytext.enable = true;
     plugins.lastplace.enable = true;#open files at the last edit place.
     plugins.oil.enable = true;
-    plugins.jupytext.enable = true;
+    plugins.vim-suda.enable = true;
+    plugins.whitespace.enable = true;
 
   };
 
