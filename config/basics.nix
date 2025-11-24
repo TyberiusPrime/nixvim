@@ -30,6 +30,10 @@
     smartcase = true;
     splitkeep = "screen"; # sensible splitting behaviour
 
+    # fix '10G / mouse wheel -= giant scroll
+    scrolljump = 1;
+    scrolloff = 0;
+
   };
 
   extraConfigLua = ''
