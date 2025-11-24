@@ -8,10 +8,10 @@
         ui_select = true;
       };
       bigfile.enable = true;
-      indent= {
+      indent = {
         enable = true;
         animate.enabled = false;
-        };
+      };
     };
   };
 

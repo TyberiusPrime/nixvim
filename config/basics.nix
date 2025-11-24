@@ -28,7 +28,7 @@
 
     ignorecase = true;
     smartcase = true;
-    splitkeep="screen"; # sensible splitting behaviour
+    splitkeep = "screen"; # sensible splitting behaviour
 
   };
 

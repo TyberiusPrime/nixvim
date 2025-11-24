@@ -1,5 +1,5 @@
 {
-  extraConfigLua =''
+  extraConfigLua = ''
     vim.api.nvim_exec(
     [[
     " Ctrl-^ is very handy command in normal mode. Ctrl-^
@@ -19,9 +19,11 @@
     	false
     )
   '';
-  keymaps = [{
-    key = "<Del>";
-    action = ":call MySwitch()<cr>";
-    mode = "n";
-  }];
+  keymaps = [
+    {
+      key = "<Del>";
+      action = ":call MySwitch()<cr>";
+      mode = "n";
+    }
+  ];
 }

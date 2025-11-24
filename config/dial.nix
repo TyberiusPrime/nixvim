@@ -1,19 +1,17 @@
 {
 
-#   nnoremap  <C-a> <Plug>(dial-increment)
-# nnoremap  <C-x> <Plug>(dial-decrement)
-# nnoremap g<C-a> <Plug>(dial-g-increment)
-# nnoremap g<C-x> <Plug>(dial-g-decrement)
-# xnoremap  <C-a> <Plug>(dial-increment)
-# xnoremap  <C-x> <Plug>(dial-decrement)
-# xnoremap g<C-a> <Plug>(dial-g-increment)
-# xnoremap g<C-x> <Plug>(dial-g-decrement)
+  #   nnoremap  <C-a> <Plug>(dial-increment)
+  # nnoremap  <C-x> <Plug>(dial-decrement)
+  # nnoremap g<C-a> <Plug>(dial-g-increment)
+  # nnoremap g<C-x> <Plug>(dial-g-decrement)
+  # xnoremap  <C-a> <Plug>(dial-increment)
+  # xnoremap  <C-x> <Plug>(dial-decrement)
+  # xnoremap g<C-a> <Plug>(dial-g-increment)
+  # xnoremap g<C-x> <Plug>(dial-g-decrement)
 
   keymaps = [
 
-
-
-{
+    {
       action = '':lua require("dial.map").manipulate("increment", "normal")<cr>'';
       key = "<c-a>";
       mode = "n";

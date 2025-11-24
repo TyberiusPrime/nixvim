@@ -7,7 +7,8 @@
     #enable = true;
   };
   # I think I like this one better
-  plugins.indent-blankline = { # use snacks
+  plugins.indent-blankline = {
+    # use snacks
     enable = false;
     settings = {
       exclude = {
@@ -46,10 +47,9 @@
   #todo:
   # femaco
   # markdown-preview
-   # vim table mode
-   # dial/speed dating
-    # spelunker?
-
+  # vim table mode
+  # dial/speed dating
+  # spelunker?
 
   # nvim-hlslens what's that good for in modern neovim?:
   # nvim-peekup - good Idea but I very rarely used it

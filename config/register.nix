@@ -13,7 +13,7 @@
       mode = "n";
       options = {
         silent = true;
-      desc = "Register picker";
+        desc = "Register picker";
       };
     }
   ];
