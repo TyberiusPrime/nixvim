@@ -2,6 +2,7 @@
 
   # Import all your configuration modules here
   imports = [
+    ./abbr.nix
     ./autocomplete.nix
     ./basics.nix
     ./bioinformatics.nix
@@ -29,11 +30,11 @@
     ./typst.nix
     ./undo.nix
     ./yank_highlight.nix
+    ./bacon.nix
 
   ];
   config = {
     # one liner plugins.:
-    plugins.bacon.enable = true;
     plugins.jupytext.enable = true;
     plugins.lastplace.enable = true; # open files at the last edit place.
     plugins.oil.enable = true;
