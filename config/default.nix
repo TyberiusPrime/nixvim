@@ -2,31 +2,32 @@
 
   # Import all your configuration modules here
   imports = [
+    ./autocomplete.nix
     ./basics.nix
+    ./bioinformatics.nix
     ./bufferline.nix
-    #./file-history.nix
-    ./keybinds.nix
-    ./lsp.nix
-    ./review.nix
-    #./snacks.nix
-    ./treesitter.nix
     ./colorscheme.nix
     ./comments.nix
-    ./register.nix
-    ./snacks.nix
-    ./spell.nix
-    ./sandwich.nix
-    ./replacewithregister.nix
-    ./dial.nix
-    ./bioinformatics.nix
-    ./undo.nix
     ./copilot.nix
-    ./typst.nix
+    ./dial.nix
+    #./file-history.nix
+    ./files.nix
+    ./keybinds.nix
+    ./lsp.nix
     ./menu.nix
     ./myswitch.nix
     ./project.nix
-    ./autocomplete.nix
-    ./files.nix
+    ./python.nix
+    ./register.nix
+    ./replacewithregister.nix
+    ./review.nix
+    ./sandwich.nix
+    #./snacks.nix
+    ./snacks.nix
+    ./spell.nix
+    ./treesitter.nix
+    ./typst.nix
+    ./undo.nix
     ./yank_highlight.nix
 
 
