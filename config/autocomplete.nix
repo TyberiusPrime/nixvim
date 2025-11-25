@@ -13,11 +13,11 @@
         "lsp"
         #"copilot"
         "path"
-        "luasnip"
+        #"luasnip"
         "buffer"
         #"spell"
       ];
-      sources = {
+      #sources = {
         # copilot = { # couldn't get it to work.
         #   name = "copilot";
         #   module = "blink-copilot";
@@ -25,7 +25,7 @@
         #   score_offset = 100;
         # };
 
-      };
+        #};
     };
   };
 }

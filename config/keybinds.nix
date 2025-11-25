@@ -1,6 +1,4 @@
-{ ... }:
-
-{
+{...}: {
   extraConfigLua = ''
     -- a function that writes and closes the current buffer
     -- if it was the last buffer, quit vim
@@ -49,15 +47,6 @@
     }
 
     {
-      # autoformat
-      action = ":lua vim.lsp.buf.format() <cr>";
-      key = "<F12>";
-      mode = "n";
-      options = {
-        silent = true;
-      };
-    }
-    {
       action = "<esc>:lua vim.lsp.buf.format() <cr>";
       key = "<F12>";
       mode = "i";
@@ -82,23 +71,37 @@
         silent = true;
       };
     }
-     # copy to clipboard
+    # copy to clipboard
     {
       action = "\"+y";
       key = "<c-c>";
     }
     # paste from clipboard
-  {
+    {
       action = "i<C-g>u<esc>\"+p";
       key = "<c-v>";
       mode = "n";
     }
-  {
+    {
       action = "<C-g>u<esc>\"+p";
       key = "<c-v>";
       mode = "i";
     }
-
-
+    {
+      # because it's muscle memory, and lsp signatures are less important
+      action = ":w<cr>";
+      key = "<c-s>";
+      mode = "n";
+    }{
+      # because it's muscle memory, and lsp signatures are less important
+      action = ":lua vim.lsp.buf.signature_help()<cr>";
+      key = "<c-l>";
+      mode = "n";
+    }
+    {
+      action = "<esc>:w<cr>i";
+      key = "<c-s>";
+      mode = "i";
+    }
   ];
 }
