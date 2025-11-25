@@ -1,74 +1,24 @@
 {pkgs, ...}: {
   # extraPlugins = [
   #   (pkgs.vimUtils.buildVimPlugin {
-  #     name = "neoformat";
+  #     name = "black";
   #     src = pkgs.fetchFromGitHub {
-  #       owner = "sbdchd";
-  #       repo = "neoformat";
-  #       rev = "2b11fb9fa383636de5de9ecc7c989436c4e0f9d1";
-  #       sha256 = "sha256-lrooNuJOV0gfg+OiKl09Iyn1jMuVxI87vSoZddenwXI=";
+  #       owner = "averms";
+  #       repo = "black-nvim";
+  #       rev = "8fb3efc562b67269e6f31f8653297f826534fa4b";
+  #       sha256 = "sha256-pbbbkRD4ZFxTupmdNe1UYpI7tN6//GXUMll/jeCSUAg=";
   #     };
   #   })
   # ];
   extraConfigLua = ''
-    vim.api.nvim_exec([[
-      function! Black(...)
-    		silent write
-            let l:args = get(a:, 1, "")
-
-            if exists("g:black_cmd")
-                let black_cmd=g:black_cmd
-            else
-                let black_cmd="black"
-            endif
-
-
-            if !executable(black_cmd)
-                echoerr "File " . black_cmd . " not found. Please install it first."
-                return
-            endif
-    		silent write
-
-            let execmdline=black_cmd . " - -q" . l:args
-            let current_line = line(".")
-    		let last_line = line("$")
-            " save current cursor position
-            let current_cursor = getpos(".")
-            silent execute "0,$!" . execmdline
-            " restore cursor
-            call setpos(".", current_cursor)
-            if v:shell_error != 0
-                " Shell command failed, so open a new buffer with error text
-    			let @a = join(getline(last_line+1, "$"), "\n")
-                silent undo
-                " restore cursor position
-                "call setpos(".", current_cursor)
-                silent new
-    			:setlocal buftype=nofile
-    			:setlocal bufhidden=hide
-    			:setlocal noswapfile
-    			execute "normal! iBlack failed\<CR>\<esc>"
-    			"append "black failed<c-c>"
-                silent put a
-                "echoerr "Black call failed"
-            end
-                execute "normal! " . current_line . "G"
-    			call setpos(".", current_cursor)
-            "echo "called black"
-        endfunction
-
-        command! -nargs=? -bar Black call Black(<f-args>)
-
-          ]]
-            ,false)
   '';
-  autoCmd = [
-    {
-      event = "FileType";
-      pattern = "python";
-      command = "noremap <buffer> <F12> :call Black()<CR>";
-    }
-  ];
+  # autoCmd = [
+  #   {
+  #     event = "FileType";
+  #     pattern = "python";
+  #     command = "noremap <buffer> <F12> :call Black()<cr>";
+  #   }
+  # ];
 
   plugins.lsp.enable = true;
   lsp.servers = {
@@ -84,6 +34,7 @@
     pyright = {
       enable = true;
     };
+    ruff.enable = true;
   };
   extraPackages = [
     pkgs.nixd
@@ -101,5 +52,14 @@
         silent = true;
       };
     }
+    # {
+    #   # autoformat
+    #   action = ":lua vim.diagnostic.open_float() <cr>";
+    #   key = "<C-W>";
+    #   mode = "n";
+    #   options = {
+    #     silent = true;
+    #   };
+    # }
   ];
 }
