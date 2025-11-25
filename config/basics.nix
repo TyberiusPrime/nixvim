@@ -5,6 +5,9 @@
     termguicolors = true;
 
   };
+
+    wrapRc = true; # config only from here
+    impureRtp = false; # remove runtime dirs
   globalOpts = {
     # Line numbers
     number = true;
