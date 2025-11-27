@@ -9,7 +9,7 @@
       keymap = {
         preset = "super-tab";
       };
-      settings.sources.default = [
+      sources.default = [
         "lsp"
         #"copilot"
         "path"

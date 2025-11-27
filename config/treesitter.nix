@@ -22,7 +22,7 @@
           "ic" = "@class.inner";
           "ai" = "@block.outer";
           "ii" = "@block.inner";
-          "p" = "@parameter.inner";
+          "P" = "@parameter.inner";
 
           al = "@call.outer";
           il = "@call.inner";

@@ -28,7 +28,7 @@
     nixd = {
       enable = true;
     };
-    rls = {
+    rust_analyzer = {
       enable = true;
     };
     pyright = {
