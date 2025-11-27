@@ -9,6 +9,7 @@
     wrapRc = true; # config only from here
     impureRtp = false; # remove runtime dirs
   globalOpts = {
+    modeline = false; # no mode line injection thank you.
     # Line numbers
     number = true;
     relativenumber = false;
