@@ -35,9 +35,11 @@
     nixd = {
       enable = true;
     };
-    # rust_analyzer = {
-    #   enable = true;
-    # };
+    rust_analyzer = {
+      enable = true;
+      settings = {
+      };
+    };
     pyright = {
       enable = true;
     };
@@ -63,6 +65,33 @@
       # goto definition...
       action = ":lua vim.lsp.buf.definition()<cr>";
       key = "gd";
+      mode = "n";
+      options = {
+        silent = true;
+      };
+    }
+    {
+      # goto definition...
+      action = ":lua vim.lsp.buf.code_action()<cr>";
+      key = "gha";
+      mode = "n";
+      options = {
+        silent = true;
+      };
+    }
+    {
+      # goto definition...
+      action = ":lua vim.lsp.buf.rename()<cr>";
+      key = "ghn";
+      mode = "n";
+      options = {
+        silent = true;
+      };
+    }
+    {
+      # goto definition...
+      action = ":lua vim.lsp.buf.references()<cr>";
+      key = "ghr";
       mode = "n";
       options = {
         silent = true;

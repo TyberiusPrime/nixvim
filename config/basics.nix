@@ -8,8 +8,7 @@
 
     wrapRc = true; # config only from here
     impureRtp = false; # remove runtime dirs
-  globalOpts = {
-    modeline = false; # no mode line injection thank you.
+  opts = {
     # Line numbers
     number = true;
     relativenumber = false;
@@ -34,6 +33,9 @@
     # fix '10G / mouse wheel -= giant scroll
     scrolljump = 1;
     scrolloff = 0;
+
+    # ignore my ex: lines in rust...
+    modeline = false;
 
   };
 

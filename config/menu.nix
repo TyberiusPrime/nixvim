@@ -134,7 +134,7 @@
         commands["Strip ANSI codes"] = function() 
           vim.cmd(":call StripAnsi()")
         end
-        commands["Trim whitespace"] = function()  
+        commands["Trim whitespace (eol)"] = function()  
          require('whitespace-nvim').trim()
         end
         commands["close other buffers"] = function() 
@@ -151,6 +151,10 @@
           	let @+ = expand("%:p")
           ]])
         end
+        commands["toggle inlay hints"] = function()
+          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+        end
+
         commands["cwd to project"]  = function() 
           local root, lsp_or_method = require('project').get_project_root()
           if root then
