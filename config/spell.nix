@@ -3,6 +3,15 @@
   opts = {
     spelllang = "en_us,de_de";
   };
+  extraFiles = {
+    "spell/de.utf-8.spl" = {
+      enable = true;
+      source = builtins.fetchurl {
+        url = "https://ftp.nluug.nl/vim/runtime/spell/de.utf-8.spl";
+        sha256 = "sha256:1ld3hgv1kpdrl4fjc1wwxgk4v74k8lmbkpi1x7dnr19rldz11ivk";
+      };
+    };
+  };
   #   extraConfigLua = ''
   #     vim.api.nvim_exec(
   # 	[=[

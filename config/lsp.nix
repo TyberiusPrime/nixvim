@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   # extraPlugins = [
   #   (pkgs.vimUtils.buildVimPlugin {
   #     name = "black";
@@ -11,6 +12,11 @@
   #   })
   # ];
   extraConfigLua = ''
+    -- unmap gra in visual/x mode
+    vim.api.nvim_exec([[
+      xunmap gra
+    ]], false)
+
   '';
   # autoCmd = [
   #   {
@@ -47,6 +53,15 @@
       # autoformat
       action = ":lua vim.lsp.buf.format() <cr>";
       key = "<F12>";
+      mode = "n";
+      options = {
+        silent = true;
+      };
+    }
+    {
+      # goto definition...
+      action = ":lua vim.lsp.buf.definition()<cr>";
+      key = "gd";
       mode = "n";
       options = {
         silent = true;

@@ -27,7 +27,9 @@
         -- Multiple hits, use selection
         local commands = {}
         for _, file in ipairs(hits) do
-            local relative_path = file:gsub("^" .. docs_path , "")
+            --local relative_path = file:gsub("^" .. docs_path , "")
+            local start, finish = file:find(docs_path, 1, true)  -- true = plain match
+            local relative_path = (start == 1) and file:sub(finish + 2) or file
             local display_name = relative_path:gsub("%.md$", ""):gsub("/", " > ")
             local link_name = relative_path:match("([^/]+)%.md$") or relative_path:gsub("%.md$", "")
             local hugo_link = string.format('[%s]({{< relref "%s" >}})', link_name, relative_path)
