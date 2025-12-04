@@ -118,9 +118,8 @@
         commands["Sudo write"] = function ()
             vim.cmd('SudaWrite')
           end
-        commands["Open Undotree"] = function ()
-            vim.cmd('UndotreeShow')
-            vim.cmd('UndotreeFocus')
+        commands["Open Undotree (atone)"] = function ()
+            vim.cmd('Atone')
           end
 
         commands["Goto today/ search date"] = function() 

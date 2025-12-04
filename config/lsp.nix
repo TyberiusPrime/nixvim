@@ -17,6 +17,7 @@
       xunmap gra
     ]], false)
 
+    vim.lsp.enable('rust_analyzer', vim.fn.executable("cargo") ~= 0)
   '';
   # autoCmd = [
   #   {
@@ -34,9 +35,9 @@
     nixd = {
       enable = true;
     };
-    rust_analyzer = {
-      enable = true;
-    };
+    # rust_analyzer = {
+    #   enable = true;
+    # };
     pyright = {
       enable = true;
     };

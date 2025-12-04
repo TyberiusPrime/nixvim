@@ -45,3 +45,7 @@
 
   # vim-repeat: offers . for multiple plugins. Am I usingone?
 }
+
+
+# todo:
+# https://github.com/tris203/hawtkeys.nvim
