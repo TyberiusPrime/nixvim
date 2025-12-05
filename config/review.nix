@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
 
   # indent line. with animations.
@@ -75,5 +75,27 @@
   # vim-toml -> treesitter.
   # nvim-osc52 -> :h clipboard-osc52
   #beloglazov/vim-textobj-quotes -> treesitter
+  
 
+  #reference is a cool idea, but not starting reliably for me.
+  # extraPlugins = [
+  #   (pkgs.vimUtils.buildVimPlugin {
+  #     name = "referencer.nvim";
+  #     src = pkgs.fetchFromGitHub ;
+  #   })
+  # ];
+  # extraConfigLua = ''
+  #       require("referencer").setup({
+  #       enable = true,
+  #       format = "  %d ref",
+  #       show_no_reference = true,
+  #       kinds = { 12, 6, 5, 23, 8 },
+  #       hl_group = "Comment",
+  #       color = "#FFA500",
+  #       virt_text_pos = "eol",
+  #       pattern = {"*.go", "*.py"},
+  #       lsp_servers = {'gopls', 'pyright'}
+  #
+  #   })
+  # '';
 }

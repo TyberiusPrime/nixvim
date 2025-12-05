@@ -110,9 +110,9 @@
         )
 
       function mymenu()
-        local replace_termcodes = function(str)
-            return vim.api.nvim_replace_termcodes(str, true, true, true)
-        end
+        -- local replace_termcodes = function(str)
+        --     return vim.api.nvim_replace_termcodes(str, true, true, true)
+        -- end
         local commands = {}
 
         commands["Sudo write"] = function ()
@@ -172,6 +172,9 @@
 
         commands["hugo links"] = hugo_links
 
+        commands["convi"] =function() 
+          vim.cmd(":Connvy")
+        end
 
 
 
@@ -189,6 +192,28 @@
                     end
             )
         end
+   function my_vis_menu()
+        local commands = {}
+
+        commands["convy"] =function() 
+          vim.cmd(":Convy")
+        end
+
+        local command_names = {}
+        for name, _ in pairs(commands) do
+            table.insert(command_names, name)
+        end
+
+        vim.ui.select(command_names, {
+                    prompt = 'Menu',
+                }, function(choice)
+                    if choice then
+                        commands[choice]()
+                      end
+                    end
+            )
+        end
+
   '';
   keymaps = [
     {
@@ -206,5 +231,11 @@
       action = ":lua my_emails()<cr>";
       mode = "i";
     }
+  {
+      key = "<leader>m";
+      action = ":lua my_vis_menu()<cr>";
+      mode = "v";
+    }
+
   ];
 }

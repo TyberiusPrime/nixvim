@@ -150,7 +150,7 @@
     }
     {
       key = "<backspace>";
-      action = "<esc>:lua Snacks.picker.buffers()<cr>";
+      action = "<esc>:lua Snacks.picker.buffers({current=false, sort_last_used=true})<cr>";
       mode = "n";
     }
 

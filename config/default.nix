@@ -31,6 +31,7 @@
     ./undo.nix
     ./yank_highlight.nix
     ./bacon.nix
+    ./convert.nix
 
   ];
   config = {
@@ -40,6 +41,8 @@
     plugins.oil.enable = true;
     plugins.vim-suda.enable = true;
     plugins.whitespace.enable = true;
+    plugins.marks.enable = true;
+    plugins.hmts.enable = true; # nested syntax highlighting for nix/ homemanager.
 
   };
 
