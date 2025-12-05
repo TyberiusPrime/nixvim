@@ -75,7 +75,6 @@
   # vim-toml -> treesitter.
   # nvim-osc52 -> :h clipboard-osc52
   #beloglazov/vim-textobj-quotes -> treesitter
-  
 
   #reference is a cool idea, but not starting reliably for me.
   # extraPlugins = [
@@ -98,4 +97,84 @@
   #
   #   })
   # '';
+  plugins.spider.enable = true;
+  plugins.spider.settings = {
+    skipInsignificantPunctuation = true;
+    subwordMovement = true;
+  };
+  keymaps = [
+    {
+      action = ":lua require('spider').motion('w')<CR>";
+      key = "w";
+      mode = [
+        "n"
+        "o"
+        "x"
+      ];
+      options = {
+        silent = true;
+      };
+    }
+    {
+      action = "w";
+      key = "W";
+      mode = [
+        "n"
+        "o"
+        "x"
+      ];
+      options = {
+        silent = true;
+      };
+    }
+    {
+      action = ":lua require('spider').motion('e')<CR>";
+      key = "e";
+      mode = [
+        "n"
+        "o"
+        "x"
+      ];
+      options = {
+        silent = true;
+      };
+    }
+    {
+      action = "e";
+      key = "E";
+      mode = [
+        "n"
+        "o"
+        "x"
+      ];
+      options = {
+        silent = true;
+      };
+    }
+    {
+      action = ":lua require('spider').motion('b')<CR>";
+      key = "b";
+      mode = [
+        "n"
+        "o"
+        "x"
+      ];
+      options = {
+        silent = true;
+      };
+    }
+    {
+      action = "b";
+      key = "B";
+      mode = [
+        "n"
+        "o"
+        "x"
+      ];
+      options = {
+        silent = true;
+      };
+    }
+  ];
+
 }
