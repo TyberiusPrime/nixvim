@@ -32,6 +32,7 @@
     ./yank_highlight.nix
     ./bacon.nix
     ./convert.nix
+    #./regexp_railroad.nix
 
   ];
   config = {

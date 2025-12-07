@@ -1,3 +1,4 @@
+import re
 "hallo grausami welt"
 
 
@@ -26,3 +27,6 @@ def fibonaci():
 shi = {}
 x = 5
 sho = x > 5
+
+
+re.compile("[A-G]+\d{3}")
