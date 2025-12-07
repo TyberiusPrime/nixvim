@@ -37,7 +37,7 @@
     };
     rust_analyzer = {
       enable = true;
-      settings = {
+      config= {
       };
     };
     pyright = {
