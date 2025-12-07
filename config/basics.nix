@@ -75,7 +75,5 @@
     vim.opt.splitright = true
     vim.opt.splitbelow = true
 
-    -- LSP
-    vim.lsp.inlay_hint.enable(true)
   '';
 }

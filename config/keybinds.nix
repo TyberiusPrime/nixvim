@@ -130,13 +130,13 @@
       mode = "i";
     }
 
-    {
-      action = ":e <cfile><CR>";
-      key = "gf";
-      mode = "n";
-      options.desc = "Open file under cursor, even if it doesn't exist";
-
-    }
+    # {
+    #   action = ":e <cfile><CR>";
+    #   key = "gf";
+    #   mode = "n";
+    #   options.desc = "Open file under cursor, even if it doesn't exist";
+    #
+    # }
     {
       action = ":GotoToday()<cr>";
       key = "gt";

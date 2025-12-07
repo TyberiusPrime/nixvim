@@ -33,6 +33,7 @@
     ./bacon.nix
     ./convert.nix
     #./regexp_railroad.nix
+    ./lsp-endhints.nix
 
   ];
   config = {

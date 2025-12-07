@@ -12,6 +12,7 @@
         enable = true;
         animate.enabled = false;
       };
+      image.enable = true;
     };
   };
 

@@ -17,7 +17,9 @@
       xunmap gra
     ]], false)
 
-    vim.lsp.enable('rust_analyzer', vim.fn.executable("cargo") ~= 0)
+    vim.lsp.enable('rust_analyzer', vim.fn.executable("cargo") ~= 0) -- only rust when cargo present
+
+    vim.lsp.inlay_hint.enable(false)
   '';
   # autoCmd = [
   #   {
@@ -107,4 +109,5 @@
     #   };
     # }
   ];
+
 }
