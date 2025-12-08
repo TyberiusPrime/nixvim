@@ -55,7 +55,7 @@
 
     -- Title
     vim.opt.title = true
-    vim.opt.titlestring = "nixnvim %f"
+    vim.opt.titlestring = "nvim : %f : %{getcwd()}"
 
     -- Persist undo (persists your undo history between sessions)
     -- vim.opt.undodir = vim.fn.stdpath("cache") .. "/undo"

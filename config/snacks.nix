@@ -12,8 +12,17 @@
         enable = true;
         animate.enabled = false;
       };
-      image.enable = true;
+      # image = {
+      #   enable = false;
+      # };
     };
   };
+  keymaps = [
+    {
+      action = ":lua require('snacks').image.hover()<cr>";
+      key = "<leader>i";
+      mode = "n";
+    }
+  ];
 
 }

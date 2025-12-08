@@ -2,6 +2,7 @@
 {
   opts = {
     spelllang = "en_us,de_de";
+    spellfile = "/home/finkernagel/en.utf-8.add";
   };
   extraFiles = {
     "spell/de.utf-8.spl" = {
