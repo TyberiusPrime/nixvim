@@ -34,6 +34,8 @@
     ./convert.nix
     #./regexp_railroad.nix
     ./lsp-endhints.nix
+    ./diffconflict.nix
+    # ./cursortab.nix # needs a go server compiled, not trivial build
 
   ];
   config = {
