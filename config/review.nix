@@ -97,85 +97,85 @@
   #
   #   })
   # '';
-  plugins.spider.enable = true;
-  plugins.spider.settings = {
-    skipInsignificantPunctuation = true;
-    subwordMovement = true;
-  };
-  keymaps = [
-    {
-      action = ":lua require('spider').motion('w')<CR>";
-      key = "w";
-      mode = [
-        "n"
-        "o"
-        "x"
-      ];
-      options = {
-        silent = true;
-      };
-    }
-    {
-      action = "w";
-      key = "W";
-      mode = [
-        "n"
-        "o"
-        "x"
-      ];
-      options = {
-        silent = true;
-      };
-    }
-    {
-      action = ":lua require('spider').motion('e')<CR>";
-      key = "e";
-      mode = [
-        "n"
-        "o"
-        "x"
-      ];
-      options = {
-        silent = true;
-      };
-    }
-    {
-      action = "e";
-      key = "E";
-      mode = [
-        "n"
-        "o"
-        "x"
-      ];
-      options = {
-        silent = true;
-      };
-    }
-    {
-      action = ":lua require('spider').motion('b')<CR>";
-      key = "b";
-      mode = [
-        "n"
-        "o"
-        "x"
-      ];
-      options = {
-        silent = true;
-      };
-    }
-    {
-      action = "b";
-      key = "B";
-      mode = [
-        "n"
-        "o"
-        "x"
-      ];
-      options = {
-        silent = true;
-      };
-    }
-  ];
+  # plugins.spider.enable = true;
+  # plugins.spider.settings = {
+  #   skipInsignificantPunctuation = true;
+  #   subwordMovement = true;
+  # };
+  # keymaps = [
+  #   {
+  #     action = ":lua require('spider').motion('w')<CR>";
+  #     key = "w";
+  #     mode = [
+  #       "n"
+  #       "o"
+  #       "x"
+  #     ];
+  #     options = {
+  #       silent = true;
+  #     };
+  #   }
+  #   {
+  #     action = "w";
+  #     key = "W";
+  #     mode = [
+  #       "n"
+  #       "o"
+  #       "x"
+  #     ];
+  #     options = {
+  #       silent = true;
+  #     };
+  #   }
+  #   {
+  #     action = ":lua require('spider').motion('e')<CR>";
+  #     key = "e";
+  #     mode = [
+  #       "n"
+  #       "o"
+  #       "x"
+  #     ];
+  #     options = {
+  #       silent = true;
+  #     };
+  #   }
+  #   {
+  #     action = "e";
+  #     key = "E";
+  #     mode = [
+  #       "n"
+  #       "o"
+  #       "x"
+  #     ];
+  #     options = {
+  #       silent = true;
+  #     };
+  #   }
+  #   {
+  #     action = ":lua require('spider').motion('b')<CR>";
+  #     key = "b";
+  #     mode = [
+  #       "n"
+  #       "o"
+  #       "x"
+  #     ];
+  #     options = {
+  #       silent = true;
+  #     };
+  #   }
+  #   {
+  #     action = "b";
+  #     key = "B";
+  #     mode = [
+  #       "n"
+  #       "o"
+  #       "x"
+  #     ];
+  #     options = {
+  #       silent = true;
+  #     };
+  #   }
+  # ];
 
   plugins.tiny-inline-diagnostic = {
     enable = true;
