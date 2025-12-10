@@ -41,6 +41,8 @@
 
   extraConfigLua = ''
 
+    vim.opt.selection ="exclusive" -- make w do the same in visual and non-visual mode
+
     -- Display settings
 
     -- Scrolling and UI settings
