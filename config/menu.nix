@@ -8,215 +8,279 @@
 
   extraConfigLua = ''
 
-    hugo_links = function()
-    	local cmd = {"find"}
-    	local docs_path = require('project').get_project_root() .. "/docs/content"
-    	table.insert(cmd, docs_path)
-    	table.insert(cmd, "-name")
-    	table.insert(cmd, "*.md")
-    	table.insert(cmd, "-type")
-    	table.insert(cmd, "f")
+          hugo_links = function()
+          	local cmd = {"find"}
+          	local docs_path = require('project').get_project_root() .. "/docs/content"
+          	table.insert(cmd, docs_path)
+          	table.insert(cmd, "-name")
+          	table.insert(cmd, "*.md")
+          	table.insert(cmd, "-type")
+          	table.insert(cmd, "f")
 
-        local hits = vim.fn.systemlist(vim.tbl_flatten(cmd))
+              local hits = vim.fn.systemlist(vim.tbl_flatten(cmd))
 
-        if #hits == 0 then
-            print("No markdown files found in docs/content")
-            return
-        end
+              if #hits == 0 then
+                  print("No markdown files found in docs/content")
+                  return
+              end
 
-        -- Multiple hits, use selection
-        local commands = {}
-        for _, file in ipairs(hits) do
-            --local relative_path = file:gsub("^" .. docs_path , "")
-            local start, finish = file:find(docs_path, 1, true)  -- true = plain match
-            local relative_path = (start == 1) and file:sub(finish + 2) or file
-            local display_name = relative_path:gsub("%.md$", ""):gsub("/", " > ")
-            local link_name = relative_path:match("([^/]+)%.md$") or relative_path:gsub("%.md$", "")
-            local hugo_link = string.format('[%s]({{< relref "%s" >}})', link_name, relative_path)
+              -- Multiple hits, use selection
+              local commands = {}
+              for _, file in ipairs(hits) do
+                  --local relative_path = file:gsub("^" .. docs_path , "")
+                  local start, finish = file:find(docs_path, 1, true)  -- true = plain match
+                  local relative_path = (start == 1) and file:sub(finish + 2) or file
+                  local display_name = relative_path:gsub("%.md$", ""):gsub("/", " > ")
+                  local link_name = relative_path:match("([^/]+)%.md$") or relative_path:gsub("%.md$", "")
+                  local hugo_link = string.format('[%s]({{< relref "%s" >}})', link_name, relative_path)
 
-            commands[display_name] = function()
-                vim.api.nvim_put({ hugo_link }, "", false, true)
-            end
-        end
+                  commands[display_name] = function()
+                      vim.api.nvim_put({ hugo_link }, "", false, true)
+                  end
+              end
 
-        local cmd = {}
-        for name, _ in pairs(commands) do
-            table.insert(cmd, name)
-        end  
+              local cmd = {}
+              for name, _ in pairs(commands) do
+                  table.insert(cmd, name)
+              end  
 
 
 
-        vim.ui.select(cmd, {
-                    prompt = 'Hugo',
-                }, function(choice)
-                    if choice then
-                        commands[choice]()
-                      end
-                    end
-            )
+              vim.ui.select(cmd, {
+                          prompt = 'Hugo',
+                      }, function(choice)
+                          if choice then
+                              commands[choice]()
+                            end
+                          end
+                  )
+          end
+
+          my_emails = function() 
+              local emails = vim.fn.systemlist({"/home/finkernagel/upstream/bfsd/result/bin/bfsd-mail-whoser", "--dump"})
+
+             vim.ui.select(emails, {
+                          prompt = 'Emails',
+                      }, function(choice)
+                          if choice then
+                              vim.api.nvim_put({ choice }, "", false, true)
+                            end
+                          end
+                  )
+          end
+
+
+                vim.api.nvim_exec(
+              	[[
+              function! DiffAgainstFileOnDisk()
+                :w! /tmp/working_copy
+                exec "!diff /tmp/working_copy %"
+              endfunction
+
+              function! SearchDate()
+              	if search(strftime('%Y-%m-%d')) == 0
+              		let out = "<" . strftime('%Y-%m-%d') . ">"
+              		norm! Go
+              		put =out
+              		norm! o
+              		let out = "* "
+              		put =out
+              		"pu=
+              		"norm! kJo
+              		:startinsert!
+              	endif
+              endfunction
+
+
+              function! InsertDate()
+              	let out = "# " . strftime('%Y-%m-%d') . ""
+              	put=out
+              	norm! o
+              	:startinsert
+              endfunction
+
+
+              function StripAnsi()
+              	%s/\%x1b\[[0-9;]*m//g
+              	%s/\r/
+              endfunction
+
+              ]],
+              	false
+              )
+
+            function mymenu()
+              -- local replace_termcodes = function(str)
+              --     return vim.api.nvim_replace_termcodes(str, true, true, true)
+              -- end
+              local commands = {}
+
+              commands["Sudo write"] = function ()
+                  vim.cmd('SudaWrite')
+                end
+              commands["Open Undotree (atone)"] = function ()
+                  vim.cmd('Atone')
+                end
+
+              commands["Goto today/ search date"] = function() 
+                vim.cmd(":call SearchDate()")
+              end
+              commands["insert date"] = function() 
+                vim.cmd(":call InsertDate()")
+              end
+              commands["Diff against file on disk"] = function() 
+                vim.cmd(":call DiffAgainstFileOnDisk()")
+              end
+              commands["Strip ANSI codes"] = function() 
+                vim.cmd(":call StripAnsi()")
+              end
+              commands["Trim whitespace (eol)"] = function()  
+               require('whitespace-nvim').trim()
+              end
+              commands["close other buffers"] = function() 
+                vim.cmd("%bd|e#|bd#")
+              end
+              -- commands["reverse complement"] = function() 
+              --   vim.cmd(":lua line_wise_rev_complement(false)")
+              -- end
+              commands["copy filename to clipboard"] = function() 
+                vim.cmd([[
+                	let @+ = expand("%:p")
+                ]])
+              end
+              commands["toggle inlay hints"] = function()
+                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+              end
+
+              commands["cwd to project"]  = function() 
+                local root, lsp_or_method = require('project').get_project_root()
+                if root then
+                    vim.cmd('cd ' .. root)
+                    print('Changed directory to project root: ' .. root .. ' (' .. lsp_or_method .. ')')
+                else
+                    print('Project root not found.')
+                end
+              end
+              commands["cwd to file"] = function()
+                local filepath = vim.fn.expand('%:p:h')
+                if filepath ~= "" then
+                    vim.cmd('cd ' .. filepath)
+                    print('Changed directory to file path: ' .. filepath)
+                else
+                    print('File path not found.')
+                end
+              end
+
+              commands["hugo links"] = hugo_links
+              commands["zettelkasten fix links"] = zettelkasten_fix_links
+
+              commands["convi"] =function() 
+                vim.cmd(":Connvy")
+              end
+
+
+
+              local command_names = {}
+              for name, _ in pairs(commands) do
+                  table.insert(command_names, name)
+              end
+
+              vim.ui.select(command_names, {
+                          prompt = 'Menu',
+                      }, function(choice)
+                          if choice then
+                              commands[choice]()
+                            end
+                          end
+                  )
+              end
+
+         function my_vis_menu()
+              local commands = {}
+
+              commands["convy"] =function() 
+                vim.cmd(":Convy")
+              end
+
+              commands["reverse complement"] = function() 
+                vim.cmd(":lua line_wise_rev_complement(true)")
+              end
+
+              local command_names = {}
+              for name, _ in pairs(commands) do
+                  table.insert(command_names, name)
+              end
+
+              vim.ui.select(command_names, {
+                          prompt = 'Menu',
+                      }, function(choice)
+                          if choice then
+                              commands[choice]()
+                            end
+                          end
+                  )
+              end
+
+          function zettelkasten_fix_links() 
+            -- "/persist/zettelkasten_git/florg3/target/debug/fix_links --stdin"
+            -- select all, pipe it through fix_links --stdin
+              -- Save the current cursor position
+     local cursor_pos = vim.api.nvim_win_get_cursor(0)
+
+     -- Get the current buffer content
+     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+     local content = table.concat(lines, '\n')
+
+     -- Set environment variable and run command
+     local command = 'FLORG_DATA_PATH=/persist/zettelkasten_git/florg_data /persist/zettelkasten_git/florg3/target/debug/fix_links --stdin'
+
+     -- Use jobstart to capture only stdout
+     local stdout = {}
+     local stderr = {}
+     local job_id = vim.fn.jobstart(command, {
+       stdout_buffered = true,
+       stderr_buffered = true,
+       on_stdout = function(_, data)
+         for _, line in ipairs(data) do
+           table.insert(stdout, line)
+         end
+       end,
+       on_stderr = function(_, data)
+         -- We ignore stderr, but you could log it if needed
+         for _, line in ipairs(data) do
+           table.insert(stderr, line)
+         end
+       end,
+       on_exit = function(_, code)
+         if code ~= 0 then
+           vim.notify("fix_links failed with error code: " .. code, vim.log.levels.ERROR)
+           if #stderr > 0 then
+             vim.notify("Stderr: " .. table.concat(stderr, "\n"), vim.log.levels.ERROR)
+           end
+           return
+         end
+
+         -- Replace buffer content with the result
+         vim.api.nvim_buf_set_lines(0, 0, -1, false, stdout)
+
+         -- Restore cursor position
+         local new_line_count = #stdout
+         local original_line = cursor_pos[1]
+         local original_col = cursor_pos[2]
+         local new_line = math.min(original_line, new_line_count)
+         vim.api.nvim_win_set_cursor(0, {new_line, original_col})
+       end
+     })
+
+     if job_id <= 0 then
+       vim.notify("Failed to start fix_links process", vim.log.levels.ERROR)
+       return
+     end
+
+     -- Feed the content to stdin
+     vim.fn.chansend(job_id, content)
+     vim.fn.chanclose(job_id, 'stdin')
     end
-
-    my_emails = function() 
-        local emails = vim.fn.systemlist({"/home/finkernagel/upstream/bfsd/result/bin/bfsd-mail-whoser", "--dump"})
-
-       vim.ui.select(emails, {
-                    prompt = 'Emails',
-                }, function(choice)
-                    if choice then
-                        vim.api.nvim_put({ choice }, "", false, true)
-                      end
-                    end
-            )
-    end
-
-
-          vim.api.nvim_exec(
-        	[[
-        function! DiffAgainstFileOnDisk()
-          :w! /tmp/working_copy
-          exec "!diff /tmp/working_copy %"
-        endfunction
-
-        function! SearchDate()
-        	if search(strftime('%Y-%m-%d')) == 0
-        		let out = "<" . strftime('%Y-%m-%d') . ">"
-        		norm! Go
-        		put =out
-        		norm! o
-        		let out = "* "
-        		put =out
-        		"pu=
-        		"norm! kJo
-        		:startinsert!
-        	endif
-        endfunction
-
-
-        function! InsertDate()
-        	let out = "# " . strftime('%Y-%m-%d') . ""
-        	put=out
-        	norm! o
-        	:startinsert
-        endfunction
-
-
-        function StripAnsi()
-        	%s/\%x1b\[[0-9;]*m//g
-        	%s/\r/
-        endfunction
-
-        ]],
-        	false
-        )
-
-      function mymenu()
-        -- local replace_termcodes = function(str)
-        --     return vim.api.nvim_replace_termcodes(str, true, true, true)
-        -- end
-        local commands = {}
-
-        commands["Sudo write"] = function ()
-            vim.cmd('SudaWrite')
-          end
-        commands["Open Undotree (atone)"] = function ()
-            vim.cmd('Atone')
-          end
-
-        commands["Goto today/ search date"] = function() 
-          vim.cmd(":call SearchDate()")
-        end
-        commands["insert date"] = function() 
-          vim.cmd(":call InsertDate()")
-        end
-        commands["Diff against file on disk"] = function() 
-          vim.cmd(":call DiffAgainstFileOnDisk()")
-        end
-        commands["Strip ANSI codes"] = function() 
-          vim.cmd(":call StripAnsi()")
-        end
-        commands["Trim whitespace (eol)"] = function()  
-         require('whitespace-nvim').trim()
-        end
-        commands["close other buffers"] = function() 
-          vim.cmd("%bd|e#|bd#")
-        end
-        commands["reverse complement"] = function() 
-          vim.cmd(":lua line_wise_rev_complement(true)")
-        end
-        commands["copy reverse complement"] = function() 
-          vim.cmd(":lua line_wise_rev_complement(false)")
-        end
-        commands["copy filename to clipboard"] = function() 
-          vim.cmd([[
-          	let @+ = expand("%:p")
-          ]])
-        end
-        commands["toggle inlay hints"] = function()
-          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-        end
-
-        commands["cwd to project"]  = function() 
-          local root, lsp_or_method = require('project').get_project_root()
-          if root then
-              vim.cmd('cd ' .. root)
-              print('Changed directory to project root: ' .. root .. ' (' .. lsp_or_method .. ')')
-          else
-              print('Project root not found.')
-          end
-        end
-        commands["cwd to file"] = function()
-          local filepath = vim.fn.expand('%:p:h')
-          if filepath ~= "" then
-              vim.cmd('cd ' .. filepath)
-              print('Changed directory to file path: ' .. filepath)
-          else
-              print('File path not found.')
-          end
-        end
-
-        commands["hugo links"] = hugo_links
-
-        commands["convi"] =function() 
-          vim.cmd(":Connvy")
-        end
-
-
-
-        local command_names = {}
-        for name, _ in pairs(commands) do
-            table.insert(command_names, name)
-        end
-
-        vim.ui.select(command_names, {
-                    prompt = 'Menu',
-                }, function(choice)
-                    if choice then
-                        commands[choice]()
-                      end
-                    end
-            )
-        end
-   function my_vis_menu()
-        local commands = {}
-
-        commands["convy"] =function() 
-          vim.cmd(":Convy")
-        end
-
-        local command_names = {}
-        for name, _ in pairs(commands) do
-            table.insert(command_names, name)
-        end
-
-        vim.ui.select(command_names, {
-                    prompt = 'Menu',
-                }, function(choice)
-                    if choice then
-                        commands[choice]()
-                      end
-                    end
-            )
-        end
 
   '';
   keymaps = [
@@ -235,7 +299,7 @@
       action = ":lua my_emails()<cr>";
       mode = "i";
     }
-  {
+    {
       key = "<leader>m";
       action = ":lua my_vis_menu()<cr>";
       mode = "v";

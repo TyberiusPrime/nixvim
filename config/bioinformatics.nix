@@ -44,11 +44,11 @@
   '';
 
   keymaps = [
-    {
-      action = ":lua line_wise_rev_complement(false)<CR>";
-      key = "gR";
-      mode = "n";
-    }
+    # {
+    #   action = ":lua line_wise_rev_complement(false)<CR>";
+    #   key = "gR";
+    #   mode = "n";
+    # }
     {
       action = ":lua line_wise_rev_complement(true)<CR>";
       key = "gR";

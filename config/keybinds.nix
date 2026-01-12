@@ -71,14 +71,14 @@
       };
     }
 
-    {
-      action = "<esc>:lua vim.lsp.buf.format() <cr>";
-      key = "<F12>";
-      mode = "i";
-      options = {
-        silent = true;
-      };
-    }
+    # { see lsp.nix
+    #   action = "<esc>:lua vim.lsp.buf.format() <cr>";
+    #   key = "<F12>";
+    #   mode = "i";
+    #   options = {
+    #     silent = true;
+    #   };
+    # }
     {
       # quit without saving
       action = ":bd!<cr>:q<cr>";
@@ -145,4 +145,13 @@
 
     }
   ];
+autoCmd = [
+    {
+      event = "FileType";
+      pattern = "asciidoc";
+      command = "noremap <buffer> <F12> :lua zettelkasten_fix_links()<cr>";
+    }
+  ];
+
+
 }
