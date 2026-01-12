@@ -6,6 +6,7 @@
     settings = {
       filetypes = {
         "mail" = false;
+        "beancount" = false;
       };
     };
   };
@@ -13,7 +14,7 @@
     enable = true;
     settings = {
       filetypes = {
-        "mail" = false;
+        "beancount" = false;
       };
 
       panel = {
@@ -23,7 +24,7 @@
       suggestion = {
         auto_trigger = true;
         debounce = 90;
-        enabled = true;
+        enabled = false;
         hide_during_completion = false;
         keymap = {
           accept = "<c-u>";

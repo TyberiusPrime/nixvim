@@ -57,7 +57,7 @@
     end
 
     my_emails = function() 
-        local emails = vim.fn.systemlist({"~/upstream/bfsd/result/bin/bfsd-mail-whoser", "--dump"})
+        local emails = vim.fn.systemlist({"/home/finkernagel/upstream/bfsd/result/bin/bfsd-mail-whoser", "--dump"})
 
        vim.ui.select(emails, {
                     prompt = 'Emails',

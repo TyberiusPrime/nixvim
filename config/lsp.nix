@@ -46,6 +46,7 @@
       enable = true;
     };
     ruff.enable = true;
+    beancount.enable = true;
   };
   extraPackages = [
     pkgs.nixd

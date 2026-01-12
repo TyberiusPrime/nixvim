@@ -71,7 +71,7 @@
   ];
   keymaps = [
     {
-      action = ":lua require('sibling-swap').swap_with_left() <cr>";
+      action = ":lua require('sibling-swap').swap_with_right() <cr>";
       key = "g,";
       mode = "n";
       options = {
@@ -79,7 +79,7 @@
       };
     }
     {
-      action = ":lua require('sibling-swap').swap_with_right() <cr>";
+      action = ":lua require('sibling-swap').swap_with_left() <cr>";
       key = "g.";
       mode = "n";
       options = {
@@ -87,7 +87,7 @@
       };
     }
     {
-      action = ":lua require('sibling-swap').swap_with_left() <cr>";
+      action = ":lua require('sibling-swap').swap_with_right() <cr>";
       key = "g>";
       mode = "n";
       options = {
@@ -95,7 +95,7 @@
       };
     }
     {
-      action = ":lua require('sibling-swap').swap_with_right() <cr>";
+      action = ":lua require('sibling-swap').swap_with_left() <cr>";
       key = "g<";
       mode = "n";
       options = {

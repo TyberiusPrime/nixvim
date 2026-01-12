@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  plugins.blink-copilot = {
+  plugins.blink-cmp-copilot = {
     enable = true;
   };
   plugins.blink-cmp = {
@@ -11,21 +11,23 @@
       };
       sources.default = [
         "lsp"
-        #"copilot"
+        "copilot"
         "path"
         #"luasnip"
         "buffer"
         #"spell"
       ];
-      #sources = {
-        # copilot = { # couldn't get it to work.
-        #   name = "copilot";
-        #   module = "blink-copilot";
-        #   async = true;
-        #   score_offset = 100;
-        # };
-
-        #};
+      sources = {
+        providers = {
+          copilot = {
+            # couldn't get it to work.
+            name = "copilot";
+            module = "blink-cmp-copilot";
+            async = true;
+            score_offset = 100;
+          };
+        };
+      };
     };
   };
 }
