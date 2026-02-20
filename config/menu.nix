@@ -58,6 +58,13 @@
 
           my_emails = function() 
               local emails = vim.fn.systemlist({"/home/finkernagel/upstream/bfsd/result/bin/bfsd-mail-whoser", "--dump"})
+            -- copilot, we need to remove the prefix number-of-occurances (whitespace separated, multi spaces)
+            -- and the final : if present from the entries in emails
+            for i, s in ipairs(emails) do
+              -- ^%d+%s+   → leading digits + at least one whitespace
+              -- :?$       → optional trailing colon at end of string
+              emails[i] = s:gsub("^%s*%d+%s+", ""):gsub(":?$", "")
+            end
 
              vim.ui.select(emails, {
                           prompt = 'Emails',

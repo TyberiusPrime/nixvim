@@ -36,7 +36,7 @@
     ./lsp-endhints.nix
     ./diffconflict.nix
     # ./cursortab.nix # needs a go server compiled, not trivial build
-
+    ./notmuch.nix
   ];
   config = {
     # one liner plugins.:
