@@ -31,9 +31,12 @@
               args = args,
               ---@param item snacks.picker.finder.Item
               transform = function(item)
-                item.file = item.text
-
-                item.dir = true
+                -- For local files, make path relative to cwd
+                if args and #args >= 2 and args[2] ~= vim.loop.cwd() then
+                  item.file = args[2] .. "/" .. item.text
+                else
+                  item.file = item.text
+                end
               end,
             }),
             ctx
