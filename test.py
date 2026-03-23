@@ -1,4 +1,11 @@
 import re
+
+# toml
+"""
+[test]
+   anton = 12
+"""
+
 "hallo grausami welt"
 
 
@@ -30,3 +37,10 @@ sho = x > 5
 
 
 re.compile("[A-G]+\d{3}")
+
+
+"""
+#!/usr/bin/env python
+
+hello= 23
+"""

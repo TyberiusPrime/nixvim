@@ -1,4 +1,33 @@
 {
+  extraFiles = {
+    "queries/python/injections.scm".text = ''
+      ;extends
+
+      ; Inject language based on # <lang> comment immediately before a string literal.
+      ; Example:
+      ;   # toml
+      ;   """[section]
+      ;   key = "value"
+      ;   """
+      ((comment) @injection.language
+       .
+       (expression_statement
+         (string (string_content) @injection.content))
+       (#gsub! @injection.language "^# ?" ""))
+
+      ; Inject language based on shebang on the first line of a multi-line string.
+      ; Supports: #!lang  |  #!/path/to/lang  |  #!/usr/bin/env lang
+      ; Example:
+      ;   """#!/usr/bin/env bash
+      ;   echo hello
+      ;   """
+      ((string
+        (string_content) @_shebang @injection.content)
+       (#lua-match? @_shebang "^\n?#!")
+       (#set-lang-from-shebang! @_shebang))
+    '';
+  };
+
   autoCmd = [
     {
       event = "FileType";
@@ -23,6 +52,23 @@
   ];
 
   extraConfigLua = ''
+    -- Register directive to extract injection language from a shebang line.
+    -- Handles: #!lang  |  #!/path/to/lang  |  #!/usr/bin/env lang
+    vim.treesitter.query.add_directive("set-lang-from-shebang!", function(match, _, bufnr, pred, metadata)
+      local node = match[pred[2]]
+      if not node then return end
+      local text = vim.treesitter.get_node_text(node, bufnr)
+      local first_line = text:match("^%s*([^\n]+)")
+      if not first_line then return end
+      local lang =
+        first_line:match("^#!.*/env%s+(%a[%w_%-]*)") or  -- #!/usr/bin/env bash
+        first_line:match("^#!.*/(%a[%w_%-]*)") or         -- #!/bin/bash
+        first_line:match("^#!(%a[%w_%-]*)")                -- #!bash
+      if lang then
+        metadata["injection.language"] = lang:lower()
+      end
+    end, { force = true, all = false })
+
       local ts_utils = require("nvim-treesitter.ts_utils")
 
     function toggle_f_string()
