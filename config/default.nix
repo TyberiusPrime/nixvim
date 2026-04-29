@@ -10,7 +10,7 @@
     ./colorscheme.nix
     ./comments.nix
     ./copilot.nix
-    ./dial.nix
+    #./dial.nix
     #./file-history.nix
     ./files.nix
     ./keybinds.nix
