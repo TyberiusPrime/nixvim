@@ -47,6 +47,7 @@
     plugins.whitespace.enable = true;
     plugins.marks.enable = true;
     plugins.hmts.enable = true; # nested syntax highlighting for nix/ homemanager.
+    plugins.colorizer.enable = true;
 
   };
 

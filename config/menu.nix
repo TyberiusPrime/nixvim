@@ -155,6 +155,9 @@
                 	let @+ = expand("%:p")
                 ]])
               end
+              commands["toggle colorizer"] = function() 
+                vim.cmd("ColorizerToggle")
+              end
               commands["toggle inlay hints"] = function()
                 vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
               end
