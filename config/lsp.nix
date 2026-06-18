@@ -45,12 +45,15 @@
     pyright = {
       enable = true;
     };
+    tombi = {
+      enable = true;
+    };
     ruff.enable = true;
     beancount.enable = true;
   };
   extraPackages = [
     pkgs.nixd
-    pkgs.nixfmt-rfc-style
+    pkgs.nixfmt
   ];
   diagnostic.settings.virtual_text = false;
 

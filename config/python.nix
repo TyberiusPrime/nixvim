@@ -55,7 +55,9 @@
     -- Register directive to extract injection language from a shebang line.
     -- Handles: #!lang  |  #!/path/to/lang  |  #!/usr/bin/env lang
     vim.treesitter.query.add_directive("set-lang-from-shebang!", function(match, _, bufnr, pred, metadata)
-      local node = match[pred[2]]
+      -- Neovim 0.10+ passes an array of nodes per capture; older versions a single node.
+      local nodes = match[pred[2]]
+      local node = type(nodes) == "table" and nodes[1] or nodes
       if not node then return end
       local text = vim.treesitter.get_node_text(node, bufnr)
       local first_line = text:match("^%s*([^\n]+)")
@@ -69,10 +71,8 @@
       end
     end, { force = true, all = false })
 
-      local ts_utils = require("nvim-treesitter.ts_utils")
-
     function toggle_f_string()
-    	local node = ts_utils.get_node_at_cursor()
+    	local node = vim.treesitter.get_node()
 
     	-- Check if we're inside a string
     	while node do
@@ -88,13 +88,13 @@
     	end
 
     	-- Get the start and end positions of the string
-    	local start_row, start_col, end_row, end_col = ts_utils.get_node_range(node)
+    	local start_row, start_col, end_row, end_col = node:range()
 
-    	-- Read the current line content
-    	local line = vim.api.nvim_get_current_line()
-
-    	-- Check  the string is already an f-string
-    	local is_f_string = line:sub(start_col + 1, start_col + 2):match("^f")
+    	-- Inspect the string's actual prefix via its node text (position-independent).
+    	-- Matches the leading letters before the opening quote, e.g. f"" / rf"" / "".
+    	local node_text = vim.treesitter.get_node_text(node, 0)
+    	local prefix = node_text:match("^(%a*)['\"]") or ""
+    	local is_f_string = prefix:lower():find("f")
 
     	-- Toggle the f-string status
     	if is_f_string then
