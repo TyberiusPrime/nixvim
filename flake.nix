@@ -42,11 +42,31 @@
 
         packages = let
           pkgs = import nixvim.inputs.nixpkgs {inherit system;};
+          ag = pkgs.writeShellScriptBin "ag" ''
+            case "$1" in
+              claude)
+                shift
+                CLAUDE_CODE_MAX_OUTPUT_TOKENS=64000 exec /ff-m5/agents/claude/result/bin/safe-claude "$@"
+                ;;
+              opencode)
+                shift
+                exec /ff-m5/agents/opencode-nix/result/bin/safe-opencode "$@"
+                ;;
+              dirge)
+                shift
+                exec /ff-m5/agents/dirge/result/bin/safe-dirge "$@"
+                ;;
+              *)
+                echo "Usage: ag {claude|opencode|dirge} [args...]" >&2
+                exit 1
+                ;;
+            esac
+          '';
         in {
           # Lets you run `nix run .` to start nixvim
           default = pkgs.symlinkJoin {
             name = "nvim-wrapped";
-            paths = [nvim];
+            paths = [nvim ag];
             buildInputs = [pkgs.makeWrapper];
             postBuild = ''
               wrapProgram $out/bin/nvim \
