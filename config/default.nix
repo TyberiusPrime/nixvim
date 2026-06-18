@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
 
   # Import all your configuration modules here
@@ -49,6 +50,16 @@
     plugins.marks.enable = true;
     plugins.hmts.enable = true; # nested syntax highlighting for nix/ homemanager.
     plugins.colorizer.enable = true;
+    # Use calops/hmts.nvim#38 ("handle nil values") which fixes the Neovim 0.10+
+    # crash where directive/predicate captures are arrays of nodes, not a single node.
+    plugins.hmts.package = pkgs.vimPlugins.hmts-nvim.overrideAttrs (_: {
+      src = pkgs.fetchFromGitHub {
+        owner = "auipga";
+        repo = "hmts.nvim";
+        rev = "c3014b514ccb8f1975828b8f5a009ef93f9b4ced";
+        sha256 = "1wvw8dqsibnnshjdf585l35i6d2a4jgp4cxgxkfybz5bn9jnixx5";
+      };
+    });
 
   };
 

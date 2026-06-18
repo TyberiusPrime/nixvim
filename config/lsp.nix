@@ -30,7 +30,7 @@
   # ];
 
   plugins.lsp.enable = true;
-  lsp.servers = {
+  plugins.lsp.servers = {
     lua_ls = {
       enable = true;
     };
@@ -39,14 +39,17 @@
     };
     rust_analyzer = {
       enable = true;
-      config= {
-      };
     };
     pyright = {
       enable = true;
     };
     tombi = {
       enable = true;
+      extraOptions = {
+        format.rules.indent-sub-tables = true;
+        "toml-version" = "v1.1.0.";
+        "indent-style" = "tab";
+      };
     };
     ruff.enable = true;
     beancount.enable = true;
