@@ -13,6 +13,7 @@
     #./dial.nix
     #./file-history.nix
     ./files.nix
+    ./json.nix
     ./keybinds.nix
     ./lsp.nix
     ./menu.nix

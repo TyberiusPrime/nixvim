@@ -8,8 +8,8 @@
       src = pkgs.fetchFromGitHub {
         owner = "rafikdraoui";
         repo = "jj-diffconflicts";
-        rev = "bee239e847cf336fc10925a35c65052f41aa89e3";
-        sha256 = "sha256-FXsLSYy+eli8VArUL8ZOiPtyOk4Q8TUYwobEefZPRII=";
+        rev = "a2aa9a247b56d2c1a6f6be81bcf41c5450cc82ff";
+        sha256 = "sha256-MjacjGlBRwActBBGeBZDHz8jz5J3Mt6KoDsf8WKgUDA=";
       };
       # dependencies = [ pkgs.vimPlugins.nui-nvim ];
       # extraConfigLua = ''
