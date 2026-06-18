@@ -29,6 +29,7 @@
     ./spell.nix
     ./treesitter.nix
     ./typst.nix
+    ./toml.nix
     ./undo.nix
     ./yank_highlight.nix
     ./bacon.nix
