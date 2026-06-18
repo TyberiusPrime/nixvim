@@ -45,10 +45,19 @@
     };
     tombi = {
       enable = true;
-      extraOptions = {
-        format.rules.indent-sub-tables = true;
-        "toml-version" = "v1.1.0.";
-        "indent-style" = "tab";
+      # tombi reads editor config from workspace/didChangeConfiguration, where
+      # its handler does settings.get("tombi") and deserializes the FULL config.
+      # So everything must be nested under a `tombi` key (-> settings.tombi.*).
+      settings = {
+        tombi = {
+          toml-version = "v1.1.0";
+          format.rules = {
+            indent-style = "space";
+            indent-width = 2;
+            indent-sub-tables = true;
+            indent-table-key-value-pairs = true;
+          };
+        };
       };
     };
     ruff.enable = true;
