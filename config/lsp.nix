@@ -41,6 +41,7 @@
       enable = true;
       installCargo = false;
       installRustc = false;
+      settings.cargo.targetDir = true; # subdir of normal target.
     };
     pyright = {
       enable = true;
