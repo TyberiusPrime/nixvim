@@ -6,8 +6,8 @@
 
   };
 
-    wrapRc = true; # config only from here
-    impureRtp = false; # remove runtime dirs
+  wrapRc = true; # config only from here
+  impureRtp = false; # remove runtime dirs
   opts = {
     # Line numbers
     number = true;
@@ -36,6 +36,13 @@
 
     # ignore my ex: lines in rust...
     modeline = false;
+    wildignore = [
+      "**/__pycache__/**"
+      "*.pyc"
+      "**/.git/**"
+      "**/node_modules/**"
+      "**/.DS_Store"
+    ];
 
   };
 
