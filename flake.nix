@@ -56,6 +56,10 @@
                 shift
                 exec /ff-m5/agents/dirge/result/bin/safe-dirge "$@"
                 ;;
+              pi)
+                shift
+                exec /ff-m5/agents/pi/result/bin/safe-pi "$@"
+                ;;
               *)
                 echo "Usage: ag {claude|opencode|dirge} [args...]" >&2
                 exit 1
