@@ -4,6 +4,7 @@
     enable = true;
     settings = {
       patterns = [
+        "florg_data.folder"
         ".git"
         ".github"
         "code"
