@@ -44,7 +44,7 @@
           pkgs = import nixvim.inputs.nixpkgs {inherit system;};
           ag = pkgs.writeShellScriptBin "ag" ''
             ag_dir=""
-            for d in /ff-m5/agents "$HOME/upstream/agents" ; do
+            for d in "$HOME/upstream/agents" /ff-m5/agents; do
               if [ -d "$d" ]; then
                 ag_dir="$d"
                 break
