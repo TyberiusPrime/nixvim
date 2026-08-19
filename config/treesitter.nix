@@ -7,53 +7,54 @@
     };
   };
   plugins.rainbow-delimiters.enable = true;
-  plugins.treesitter-textobjects = {
-    enable = true;
-    settings = {
-      select = {
-        enable = true;
-        disable.__empty = {};
-        lookahead = true;
 
-        keymaps = {
-          "af" = "@function.outer";
-          "if" = "@function.inner";
-          "ac" = "@class.outer";
-          "ic" = "@class.inner";
-          "ai" = "@block.outer";
-          "ii" = "@block.inner";
-          "P" = "@parameter.inner";
+  # The pinned nvim-treesitter-textobjects is the "main" branch rewrite, which
+  # dropped the old declarative `require("nvim-treesitter").setup({textobjects=...})`
+  # config path entirely (that's the old nvim-treesitter "modules" system, which
+  # the new nvim-treesitter no longer has). nixvim's plugins.treesitter-textobjects
+  # module still only knows how to generate that old-style config, so it's silently
+  # ignored -- af/if/ac/etc never got mapped. Only `enable` (for plugin install) does
+  # anything useful here; keymaps are wired up by hand below via extraConfigLua,
+  # per https://github.com/nvim-treesitter/nvim-treesitter-textobjects#text-objects-select
+  plugins.treesitter-textobjects.enable = true;
 
-          al = "@call.outer";
-          il = "@call.inner";
-        };
-        selection_modes = {
-          "@parameter.outer" = "v";
-          "@function.outer" = "V";
-          "@class.outer" = "<c-v>";
-        };
-      };
-      # swap = {
-      #   enable = true;
-      #   swap_next = {
-      #     "g>" = "@parameter.inner";
-      #   };
-      #   swap_previous = {
-      #     "g<" = "@parameter.inner";
-      #   };
-      # };
+  extraConfigLua = ''
+    do
+      local textobjects = require("nvim-treesitter-textobjects")
+      textobjects.setup({
+        select = {
+          lookahead = true,
+          selection_modes = {
+            ["@parameter.outer"] = "v",
+            ["@function.outer"] = "V",
+            ["@class.outer"] = "<c-v>",
+          },
+        },
+      })
 
-      # seems to be a another k?
-      # lsp_interop = {
-      #       enable = true;
-      #       border = "none";
-      #       peek_definition_code = {
-      #         "<leader>df" = "@function.outer";
-      #         "<leader>dF" = "@class.outer";
-      #       };
-      #     };
-    };
-  };
+      local select = require("nvim-treesitter-textobjects.select")
+      local function select_textobject(query)
+        return function()
+          select.select_textobject(query, "textobjects")
+        end
+      end
+
+      local textobject_keymaps = {
+        af = "@function.outer",
+        ["if"] = "@function.inner",
+        ac = "@class.outer",
+        ic = "@class.inner",
+        ai = "@block.outer",
+        ii = "@block.inner",
+        P = "@parameter.inner",
+        al = "@call.outer",
+        il = "@call.inner",
+      }
+      for lhs, query in pairs(textobject_keymaps) do
+        vim.keymap.set({ "x", "o" }, lhs, select_textobject(query))
+      end
+    end
+  '';
 
   extraPlugins = [
     (pkgs.vimUtils.buildVimPlugin {

@@ -52,6 +52,20 @@
   ];
 
   extraConfigLua = ''
+    -- Neovim auto-sets 'formatexpr' to the LSP formatter on LspAttach whenever the
+    -- client advertises range formatting -- ruff does, so gq/gqap got silently routed
+    -- through ruff's *code* formatter instead of Vim's builtin paragraph reflow. Ruff
+    -- doesn't rewrap comments/strings to 'textwidth', so gq turned into a no-op.
+    -- Clear it for python buffers so gq goes back to Vim's internal formatter; explicit
+    -- LSP formatting (ruff) is still available via <F12> (vim.lsp.buf.format()).
+    vim.api.nvim_create_autocmd("LspAttach", {
+      callback = function(args)
+        if vim.bo[args.buf].filetype == "python" then
+          vim.bo[args.buf].formatexpr = ""
+        end
+      end,
+    })
+
     -- Register directive to extract injection language from a shebang line.
     -- Handles: #!lang  |  #!/path/to/lang  |  #!/usr/bin/env lang
     vim.treesitter.query.add_directive("set-lang-from-shebang!", function(match, _, bufnr, pred, metadata)
