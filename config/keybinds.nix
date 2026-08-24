@@ -35,6 +35,18 @@
       print("Target date not found in the last two weeks.")
     end, { nargs = "?", range = 1 })
 
+      -- insert current time (24h) plus a trailing space, then keep typing.
+      -- adds a separating space first only when there's non-blank text
+      -- right before the cursor; feeds the keys as if typed, so the cursor
+      -- provably lands after the trailing space in insert mode.
+      function time_and_insert()
+          local line = vim.api.nvim_get_current_line()
+          local col = vim.fn.col(".") -- 1-based byte col, cursor char
+          local prev = line:sub(col - 1, col - 1) -- char left of cursor
+          local sep = prev:match("%S") and " " or ""
+          vim.api.nvim_feedkeys("i" .. sep .. os.date("%H:%M") .. " ", "n", false)
+      end
+
   '';
   keymaps = [
     {
@@ -143,6 +155,15 @@
       mode = "n";
       options.desc = "go to todays dayt";
 
+    }
+    {
+      action = ":lua time_and_insert()<cr>";
+      key = "<leader>t";
+      mode = "n";
+      options = {
+        silent = true;
+        desc = "insert current time (24h)";
+      };
     }
   ];
   autoCmd = [
