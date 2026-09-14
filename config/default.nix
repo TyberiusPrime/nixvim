@@ -19,6 +19,7 @@
     ./lsp.nix
     ./menu.nix
     ./myswitch.nix
+    ./paste-image.nix
     ./project.nix
     ./python.nix
     ./register.nix

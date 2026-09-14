@@ -181,6 +181,10 @@
                 end
               end
 
+              commands["paste image from clipboard"] = function()
+                img_paste_anything()
+              end
+
               commands["hugo links"] = hugo_links
               commands["zettelkasten fix links"] = zettelkasten_fix_links
 

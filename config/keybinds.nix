@@ -113,14 +113,15 @@
       action = "\"+y";
       key = "<c-c>";
     }
-    # paste from clipboard
+    # paste from clipboard. pastes an image if the clipboard *contains* one,
+    # otherwise the register, unchanged. see paste-image.nix
     {
-      action = "i<C-g>u<esc>\"+p";
+      action = "i<C-g>u<esc><cmd>lua paste_image_or_register()<cr>";
       key = "<c-v>";
       mode = "n";
     }
     {
-      action = "<C-g>u<esc>\"+p";
+      action = "<C-g>u<esc><cmd>lua paste_image_or_register()<cr>";
       key = "<c-v>";
       mode = "i";
     }
@@ -160,6 +161,15 @@
       action = ":lua time_and_insert()<cr>";
       key = "<leader>t";
       mode = "n";
+      options = {
+        silent = true;
+        desc = "insert current time (24h)";
+      };
+    }
+    {
+      action = "<esc>:lua time_and_insert()<cr>";
+      key = "ttt";
+      mode = "i";
       options = {
         silent = true;
         desc = "insert current time (24h)";
