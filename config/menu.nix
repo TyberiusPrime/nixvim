@@ -246,7 +246,7 @@
      local content = table.concat(lines, '\n')
 
      -- Set environment variable and run command
-     local command = 'FLORG_DATA_PATH=/persist/zettelkasten_git/florg_data /persist/zettelkasten_git/florg3/target/debug/fix_links --stdin'
+     local command = 'FLORG_DATA_PATH=/persist/zettelkasten_git/florg_data ~/upstream/florg/result/bin/fix_links --stdin'
 
      -- Use jobstart to capture only stdout
      local stdout = {}
