@@ -44,16 +44,37 @@
           local col = vim.fn.col(".") -- 1-based byte col, cursor char
           local prev = line:sub(col - 1, col - 1) -- char left of cursor
           local sep = prev:match("%S") and " " or ""
-          vim.api.nvim_feedkeys("i" .. sep .. text .. " ", "n", false)
+          -- trailing <C-g>u breaks the undo sequence right after the
+          -- inserted text, so it stays undoable on its own even though
+          -- we remain in insert mode and keep typing afterwards.
+          local keys = vim.api.nvim_replace_termcodes("i" .. sep .. text .. " <C-g>u", true, false, true)
+          vim.api.nvim_feedkeys(keys, "n", false)
       end
 
       function time_and_insert()
         insert_string_and_insert_mode(os.date("%H:%M"))
       end
 
-      function date_and_insert() 
+      function date_and_insert()
         insert_string_and_insert_mode(os.date("%Y-%m-%d"))
       end
+
+      -- values for the <expr> abbreviations below. plain iabbrev only
+      -- expands at a real word boundary, so no separator handling needed
+      -- here (unlike insert_string_and_insert_mode, used by the <leader>
+      -- mappings which can fire anywhere).
+      function time_abbrev_expr()
+        return os.date("%H:%M")
+      end
+
+      function date_abbrev_expr()
+        return os.date("%Y-%m-%d")
+      end
+
+      vim.cmd([[
+      :inoreabbrev <expr> ttt v:lua.time_abbrev_expr()
+      :inoreabbrev <expr> ddd v:lua.date_abbrev_expr()
+      ]])
 
   '';
   keymaps = [
@@ -174,15 +195,6 @@
         desc = "insert current time (24h)";
       };
     }
-    {
-      action = "<esc>:lua time_and_insert()<cr>";
-      key = "ttt";
-      mode = "i";
-      options = {
-        silent = true;
-        desc = "insert current time (24h)";
-      };
-    }
 
     {
       action = ":lua date_and_insert()<cr>";
@@ -193,14 +205,29 @@
         desc = "insert current date (iso)";
       };
     }
+    # ttt/ddd themselves are now real abbreviations (see :inoreabbrev
+    # above), so they only expand at a word boundary and don't need a
+    # keymap entry here.
+
+    # break the undo sequence at word/line boundaries, so a single `u`
+    # in insert mode undoes one word (or the ttt/ddd abbreviation
+    # expansion) at a time instead of the whole insert session.
+    # <C-]> first, to explicitly trigger any pending abbreviation
+    # expansion: once <space>/<cr> is itself mapped, Neovim no longer
+    # treats it as a "typed" trigger character, so plain iabbrev
+    # expansion (ttt/ddd here, sgg/impotr elsewhere) silently stops
+    # firing without it.
     {
-      action = "<esc>:lua date_and_insert()<cr>";
-      key = "ddd";
+      action = "<C-]><C-g>u<space>";
+      key = "<space>";
       mode = "i";
-      options = {
-        silent = true;
-        desc = "insert current date (iso)";
-      };
+      options.desc = "insert space, expanding abbrevs and breaking undo sequence";
+    }
+    {
+      action = "<C-]><C-g>u<cr>";
+      key = "<cr>";
+      mode = "i";
+      options.desc = "insert newline, expanding abbrevs and breaking undo sequence";
     }
   ];
   autoCmd = [
