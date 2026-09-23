@@ -65,6 +65,9 @@
     };
     ruff.enable = true;
     beancount.enable = true;
+    nickel_ls = {
+      enable = true;
+    };
   };
   extraPackages = [
     pkgs.nixd

@@ -1,4 +1,24 @@
 { pkgs, ... }:
+let
+  # Custom snippets, one attrset per filetype -> <filetype>.json (VSCode snippet format).
+  # prefix = what you type (keyword chars only, so no leading '.'), body = what gets inserted.
+  # body may use $1, ''${1:default}, $0 for tab stops.
+  snippets = {
+    python = {
+      mkdir = {
+        prefix = "mkdir";
+        body = "mkdir(exist_ok=True, parents=True)";
+        description = "mkdir(exist_ok=True, parents=True)";
+      };
+    };
+  };
+  snippetsDir = pkgs.linkFarm "my-snippets" (
+    pkgs.lib.mapAttrsToList (ft: s: {
+      name = "${ft}.json";
+      path = pkgs.writeText "${ft}.json" (builtins.toJSON s);
+    }) snippets
+  );
+in
 {
   plugins.blink-cmp-copilot = {
     enable = true;
@@ -14,6 +34,7 @@
         #"minuet"
         "copilot"
         "path"
+        "snippets"
         #"luasnip"
         "buffer"
         #"spell"
@@ -25,6 +46,10 @@
       };
       sources = {
         providers = {
+          snippets.opts = {
+            search_paths = [ "${snippetsDir}" ];
+            use_label_description = true;
+          };
           copilot = {
             # couldn't get it to work.
             name = "copilot";
