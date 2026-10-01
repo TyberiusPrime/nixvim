@@ -4,6 +4,15 @@
     mapleader = " ";
     termguicolors = true;
 
+    # Nvim auto-loads matchit ($VIMRUNTIME/plugin/matchit.vim does `packadd matchit`
+    # unless this global is already set). Its `%` is a <Plug> mapping, not the builtin
+    # motion, and its operator-pending path forgets to compensate for
+    # selection=exclusive (it guards the fixup on `a:mode == 'v'` only). Result:
+    # `d%`/`y%`/`c%` drop the closing bracket while `v%d` keeps it. Turning it off
+    # restores a correct `%`. vim-matchup (see default.nix) now provides `%`
+    # instead, and sets this global itself; keeping it explicit is a harmless
+    # ordering guard so matchit stays out of the way even if match-up is disabled.
+    loaded_matchit = 1;
   };
 
   wrapRc = true; # config only from here
