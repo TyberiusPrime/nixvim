@@ -4,7 +4,7 @@
   # Import all your configuration modules here
   imports = [
     ./abbr.nix
-    ./autocomplete.nix
+    ./autocomplete
     ./basics.nix
     ./bioinformatics.nix
     ./bufferline.nix

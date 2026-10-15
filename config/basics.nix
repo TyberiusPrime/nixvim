@@ -42,6 +42,8 @@
       "**/.git/**"
       "**/node_modules/**"
       "**/.DS_Store"
+      "*.egg-info" # glob()/expand()
+      "*.egg-info/" # :e completion (dirs only match with trailing /)
     ];
 
   };
@@ -63,6 +65,7 @@
     -- Title
     vim.opt.title = true
     vim.opt.titlestring = "nvim : %f : %{getcwd()}"
+    vim.opt.titlelen = 0 -- never truncate; let the window manager shorten it
 
     -- Persist undo (persists your undo history between sessions)
     -- vim.opt.undodir = vim.fn.stdpath("cache") .. "/undo"
