@@ -1,47 +1,22 @@
 { pkgs, ... }:
 {
 
-  # Import all your configuration modules here
-  imports = [
-    ./abbr.nix
-    ./autocomplete
-    ./basics.nix
-    ./bioinformatics.nix
-    ./bufferline.nix
-    ./colorscheme.nix
-    ./comments.nix
-    ./copilot.nix
-    #./dial.nix
-    #./file-history.nix
-    ./files.nix
-    ./json.nix
-    ./keybinds.nix
-    ./lsp.nix
-    ./menu.nix
-    ./mini-files.nix
-    ./myswitch.nix
-    ./paste-image.nix
-    ./project.nix
-    ./python.nix
-    ./register.nix
-    ./replacewithregister.nix
-    ./review.nix
-    ./sandwich.nix
-    #./snacks.nix
-    ./snacks.nix
-    ./spell.nix
-    ./treesitter.nix
-    ./typst.nix
-    ./undo.nix
-    ./yank_highlight.nix
-    ./bacon.nix
-    ./convert.nix
-    #./regexp_railroad.nix
-    ./lsp-endhints.nix
-    ./diffconflict.nix
-    # ./cursortab.nix # needs a go server compiled, not trivial build
-    ./notmuch.nix
-  ];
+  # Imports every .nix file in this folder and every subfolder with a default.nix.
+  # Unused modules live in ./disabled_config.
+  # builtins only - using pkgs/lib here would cause infinite recursion.
+  imports =
+    let
+      entries = builtins.readDir ./.;
+      isModule =
+        name:
+        (
+          entries.${name} == "regular"
+          && name != "default.nix"
+          && builtins.match ".*\\.nix" name != null
+        )
+        || (entries.${name} == "directory" && builtins.pathExists (./. + "/${name}/default.nix"));
+    in
+    map (name: ./. + "/${name}") (builtins.filter isModule (builtins.attrNames entries));
   config = {
     # one liner plugins.:
     plugins.jupytext.enable = true;
