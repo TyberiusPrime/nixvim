@@ -66,11 +66,42 @@
               emails[i] = s:gsub("^%s*%d+%s+", ""):gsub(":?$", "")
             end
 
+            -- remember the position now - the picker may move the cursor
+            -- (leaving its insert mode shifts it one column left)
+            local buf = vim.api.nvim_get_current_buf()
+            local win = vim.api.nvim_get_current_win()
+            local row, col = unpack(vim.api.nvim_win_get_cursor(win))
+            -- in insert mode the cursor sits between characters
+            local from_insert = vim.api.nvim_get_mode().mode:sub(1, 1) == 'i'
+
              vim.ui.select(emails, {
                           prompt = 'Emails',
                       }, function(choice)
                           if choice then
-                              vim.api.nvim_put({ choice }, "", false, true)
+                              local line = vim.api.nvim_buf_get_lines(buf, row - 1, row, true)[1]
+                              local insert_col = col
+                              if not from_insert then
+                                -- normal mode: insert after the character under the cursor (like 'a')
+                                insert_col = col + #vim.fn.matchstr(line, '\\%' .. (col + 1) .. 'c.')
+                              end
+                              insert_col = math.min(insert_col, #line)
+                              vim.api.nvim_buf_set_text(buf, row - 1, insert_col, row - 1, insert_col, { choice })
+                              if not vim.api.nvim_win_is_valid(win) then
+                                return
+                              end
+                              local end_col = insert_col + #choice
+                              if from_insert then
+                                -- back to insert mode, right after the email
+                                vim.api.nvim_set_current_win(win)
+                                if end_col >= #line + #choice then
+                                  vim.cmd('startinsert!')
+                                else
+                                  vim.api.nvim_win_set_cursor(win, { row, end_col })
+                                  vim.cmd('startinsert')
+                                end
+                              else
+                                vim.api.nvim_win_set_cursor(win, { row, end_col - 1 })
+                              end
                             end
                           end
                   )
@@ -310,7 +341,7 @@
     }
     {
       key = "<c-h>l";
-      action = ":lua my_emails()<cr>";
+      action = "<cmd>lua my_emails()<cr>";
       mode = "i";
     }
     {
