@@ -137,6 +137,27 @@ in
             search_paths = [ "${snippetsDir}" ];
             use_label_description = true;
           };
+          # The keyword range excludes punctuation, so typing `#imp` and accepting
+          # `#import ...` would only replace `imp` and leave `##import`. If the body
+          # starts with the punctuation char right before the replaced range,
+          # widen the range by one so it gets replaced too.
+          snippets.transform_items.__raw = ''
+            function(ctx, items)
+              local line = ctx.get_line()
+              for _, item in ipairs(items) do
+                local te = item.textEdit
+                if te and not item._punct_fixed then
+                  local first = te.newText:sub(1, 1)
+                  local start = te.range.start.character -- 0-indexed, so `start` is the char before (1-indexed)
+                  if start > 0 and first:match("%p") and line:sub(start, start) == first then
+                    te.range.start.character = start - 1
+                    item._punct_fixed = true
+                  end
+                end
+              end
+              return items
+            end
+          '';
           copilot = {
             # couldn't get it to work.
             name = "copilot";
